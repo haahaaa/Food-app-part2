@@ -72,6 +72,7 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
                 modelList.add(new Model(TITLE,DES,objectbitmap,DATE,LOCA));
             }
             return modelList;
-        }return null;
+        }
+        else return modelList;
     }
 }
