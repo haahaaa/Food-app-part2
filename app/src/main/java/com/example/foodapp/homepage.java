@@ -52,19 +52,7 @@ public class homepage extends AppCompatActivity {
                 String DATE = db.getAllImageData().get(position).date;
                 Bitmap bitmap = db.getAllImageData().get(position).getImage();
 
-
-                if(db2.getAllImageData().size() == 0){
-                    db2.storeImage(new Model(TITLE,DES,bitmap,DATE,LOCA));
-                }
-                else if(db2.getAllImageData().get(position).imagetitle.equals(TITLE)
-                        | db2.getAllImageData().get(position).imagedes.equals(DES)
-                        | db2.getAllImageData().get(position).image.equals(bitmap)
-                        |db2.getAllImageData().get(position).location.equals(LOCA)
-                        |db2.getAllImageData().get(position).date.equals(DATE))
-                    Toast.makeText(homepage.this,"You shared before, won't add to the user list.",Toast.LENGTH_SHORT).show();
-                else{
-                    db2.storeImage(new Model(TITLE,DES,bitmap,DATE,LOCA));
-                }
+                db2.storeImage(new Model(TITLE,DES,bitmap,DATE,LOCA));
 
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
