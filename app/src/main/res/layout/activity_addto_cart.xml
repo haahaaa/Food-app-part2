@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".addtoCart">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="198dp"
+        android:layout_height="134dp"
+        android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/displayTitle"
+        android:layout_width="280dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Title"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="348dp"
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="Description: " />
+
+    <TextView
+        android:layout_width="348dp"
+        android:layout_height="68dp"
+        android:layout_gravity="center"
+        android:textColor="@color/black"
+        android:inputType="textMultiLine"
+        android:id="@+id/displayDes"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="Date: "
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:id="@+id/displayDate"
+            android:textSize="20sp"
+            android:text=""/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="Quantity: "
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:id="@+id/displayQuan"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="348dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:text="Location: "
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <fragment
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+    <Button
+        android:id="@+id/addcart"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/buttons"
+        android:onClick="storecart"
+        android:text="Add to Cart" />
+
+    <Button
+        android:id="@+id/paybutton"
+        android:layout_width="142dp"
+        android:layout_height="77dp"
+        android:layout_gravity="center"
+        android:background="@drawable/pay" />
+
+
+</LinearLayout>

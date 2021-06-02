@@ -7,24 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import static androidx.appcompat.content.res.AppCompatResources.getDrawable;
-
-public class DatabaseHelper2 extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "mydb.db";
-    private static final String createTablequery = "create table imagedetail (imagetitle TEXT" +",imagedes TEXT" +",image BLOB" +",date TEXT" + ",location TEXT" + ",quantity TEXT)";
+public class DatabaseHelper4 extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "mydbthree.db";
+    private static final String createTablequery = "create table cartdetail (carttitle TEXT" +",cartquan TEXT" +",cartimage BLOB)";
     private ByteArrayOutputStream byteArrayOutputStream;
     private byte[] imageByte;
-
-    public DatabaseHelper2(Context context) {
+    public DatabaseHelper4(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
@@ -38,7 +30,7 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
 
     }
 
-    public void storeImage(Model object){
+    public void storeCart(Item object){
         SQLiteDatabase db = this.getWritableDatabase();
         Bitmap imageToBitmap = object.getImage();
         byteArrayOutputStream = new ByteArrayOutputStream();
@@ -46,41 +38,34 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
 
         imageByte = byteArrayOutputStream.toByteArray();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("imagetitle",object.getImagetitle());
-        contentValues.put("imagedes",object.getImagedes());
-        contentValues.put("image",imageByte);
-        contentValues.put("location",object.getLocation());
-        contentValues.put("date",object.getDate());
-        contentValues.put("quantity",object.getQuantity());
-        long result = db.insert("imagedetail",null,contentValues);
+        contentValues.put("cartimage",imageByte);
+        contentValues.put("carttitle",object.getTitle());
+        contentValues.put("cartquan", object.getQuantity());
+
+        long result = db.insert("cartdetail",null,contentValues);
 
         if(result != -1) db.close();
 
     }
 
-    public ArrayList<Model> getAllImageData(){
+    public ArrayList<Item> getAllData(){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<Model> modelList = new ArrayList<>();
+        ArrayList<Item> modelList = new ArrayList<>();
 
-
-        Cursor cursor = db.rawQuery("select * from imagedetail", null);
+        Cursor cursor = db.rawQuery("select * from cartdetail", null);
         if(cursor.getCount() != 0)
         {
             while(cursor.moveToNext()){
                 String TITLE = cursor.getString(0);
-                String DES = cursor.getString(1);
+                String Quantity = cursor.getString(1);
                 byte[] imageBytes = cursor.getBlob(2);
-                String DATE = cursor.getString(3);
-                String LOCA = cursor.getString(4);
-                String Quantity = cursor.getString(5);
+
                 Bitmap objectbitmap = BitmapFactory.decodeByteArray(imageBytes,0,imageBytes.length);
-                modelList.add(new Model(TITLE,DES,objectbitmap,DATE,LOCA,Quantity));
+                modelList.add(new Item(TITLE,Quantity,objectbitmap));
             }
             return modelList;
-        }else
-            return modelList;
+        }
+        else return modelList;
     }
-
-
 }

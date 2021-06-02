@@ -45,19 +45,38 @@ public class homepage extends AppCompatActivity {
 
         rVadapter.setOnItemClickListener(new RVadapter.OnItemClickListener() {
             @Override
-            public void onShareClick(int position) {
+            public void onItemClick(int position) {
                 String TITLE = db.getAllImageData().get(position).imagetitle;
                 String DES = db.getAllImageData().get(position).imagedes;
                 String LOCA = db.getAllImageData().get(position).location;
                 String DATE = db.getAllImageData().get(position).date;
                 Bitmap bitmap = db.getAllImageData().get(position).getImage();
+                String Quantity = db.getAllImageData().get(position).quantity;
 
-                db2.storeImage(new Model(TITLE,DES,bitmap,DATE,LOCA));
+                Intent i = new Intent(homepage.this,addtoCart.class);
+                i.putExtra("title",TITLE);
+                i.putExtra("des",DES);
+                i.putExtra("date",DATE);
+                i.putExtra("quan",Quantity);
+                i.putExtra("image",bitmap);
+               startActivity(i);
+            }
+
+            @Override
+            public void onShareClick(int position) {
+                String TITLE = db.getAllImageData().get(position).imagetitle;
+                String DES = db.getAllImageData().get(position).imagedes;
+                String LOCA = db.getAllImageData().get(position).location;
+                String DATE = db.getAllImageData().get(position).date;
+                String Quantity = db.getAllImageData().get(position).quantity;
+                Bitmap bitmap = db.getAllImageData().get(position).getImage();
+
+                db2.storeImage(new Model(TITLE,DES,bitmap,DATE,LOCA,Quantity));
 
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 i.putExtra(Intent.EXTRA_TEXT, "TITLE: " + TITLE +"\n" + "DESCRIPTION: " + DES + "\n" + "PICK UP DATE: " + DATE + "\n" + "LOCATION: " + LOCA);
-                startActivity(i.createChooser(i,"share"));
+                startActivity(Intent.createChooser(i,"share"));
             }
         });
 
@@ -67,7 +86,6 @@ public class homepage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(homepage.this,addpage.class);
                 startActivity(i);
-                finish();
             }
         });
     }
@@ -85,7 +103,11 @@ public class homepage extends AppCompatActivity {
         {
             Intent i = new Intent(homepage.this, mylist.class);
             startActivity(i);
-            finish();
+        }
+        else if(id == R.id.cart)
+        {
+            Intent i = new Intent(homepage.this, cart.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

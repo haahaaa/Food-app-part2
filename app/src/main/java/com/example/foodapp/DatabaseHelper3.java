@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper3 extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "mydbtwo.db";
-    private static final String createTablequery = "create table imagedetailtwo (imagetitletwo TEXT" +",imagedestwo TEXT" +",imagetwo BLOB" + ",datetwo TEXT" + ",locationtwo TEXT)";
+    private static final String createTablequery = "create table imagedetailtwo (imagetitletwo TEXT" +",imagedestwo TEXT" +",imagetwo BLOB" + ",datetwo TEXT" + ",locationtwo TEXT" + ",quantitytwo TEXT)";
     private ByteArrayOutputStream byteArrayOutputStream;
     private byte[] imageByte;
     public DatabaseHelper3(Context context) {
@@ -47,6 +47,7 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
         contentValues.put("imagetwo",imageByte);
         contentValues.put("locationtwo",object.getLocation());
         contentValues.put("datetwo",object.getDate());
+        contentValues.put("quantitytwo", object.getQuantity());
 
         long result = db.insert("imagedetailtwo",null,contentValues);
 
@@ -68,8 +69,9 @@ public class DatabaseHelper3 extends SQLiteOpenHelper {
                 byte[] imageBytes = cursor.getBlob(2);
                 String DATE = cursor.getString(3);
                 String LOCA = cursor.getString(4);
+                String Quantity = cursor.getString(5);
                 Bitmap objectbitmap = BitmapFactory.decodeByteArray(imageBytes,0,imageBytes.length);
-                modelList.add(new Model(TITLE,DES,objectbitmap,DATE,LOCA));
+                modelList.add(new Model(TITLE,DES,objectbitmap,DATE,LOCA,Quantity));
             }
             return modelList;
         }

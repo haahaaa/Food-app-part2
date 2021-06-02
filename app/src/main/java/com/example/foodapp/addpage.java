@@ -24,13 +24,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static android.content.Intent.ACTION_GET_CONTENT;
 
 public class addpage extends AppCompatActivity {
 
     private CalendarView calendarView;
     public TextView datetext;
-    public EditText des,title,location;
+    public EditText des,title,location,quantity;
     private Button savebtn;
     private ImageView imageView;
     private static final int PICK_IMAGE_REQUEST = 100;
@@ -40,6 +52,12 @@ public class addpage extends AppCompatActivity {
     DatabaseHelper2 db;
     DatabaseHelper3 db2;
     String pickupdate;
+
+    public List<Place.Field> list;
+    public static ArrayList<LatLng> arrayList = new ArrayList<LatLng>();
+    public static ArrayList<String> nameLs = new ArrayList<String>();
+    public static LatLng latLng;
+    public static String locName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +70,21 @@ public class addpage extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         calendarView = findViewById(R.id.calendarView);
         datetext = findViewById(R.id.datetext);
+        quantity = findViewById(R.id.quantity);
         db = new DatabaseHelper2(this);
         db2 = new DatabaseHelper3(this);
         savebtn = findViewById(R.id.save);
 
+        Places.initialize(getApplicationContext(),"AIzaSyCP2ySH6Ujv-bVWVzUtCKVQgo8fSmSFDkg");
+        location.setFocusable(false);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                list = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+                Intent i = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,list).build(addpage.this);
+                startActivityForResult(i,200);
+            }
+        });
 
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -111,10 +140,26 @@ public class addpage extends AppCompatActivity {
         catch (Exception e){
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+        if(requestCode == 200 && resultCode == RESULT_OK){
+            Place place = Autocomplete.getPlaceFromIntent(data);
+
+            location.setText(place.getAddress());
+            locName = place.getName();
+            latLng = place.getLatLng();
+
+
+        }else if(resultCode == AutocompleteActivity.RESULT_ERROR)
+        {
+            Status status = Autocomplete.getStatusFromIntent(data);
+            Toast.makeText(getApplicationContext(),status.getStatusMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     public void storeImage(View view){
-        if(!title.getText().toString().isEmpty() && imageView.getDrawable() !=null && bitmap!= null && datetext != null) {
-            db.storeImage(new Model(title.getText().toString(),des.getText().toString(),bitmap,pickupdate,location.getText().toString()));
+        if(!title.getText().toString().isEmpty() && imageView.getDrawable() !=null && bitmap!= null && datetext != null && quantity != null) {
+
+            arrayList.add(latLng);
+            nameLs.add(locName);
+            db.storeImage(new Model(title.getText().toString(),des.getText().toString(),bitmap,pickupdate,location.getText().toString(), quantity.getText().toString()));
             Toast.makeText(addpage.this,"Store informations Successfully",Toast.LENGTH_SHORT).show();
             Intent i = new Intent(addpage.this, homepage.class);
             startActivity(i);
@@ -137,4 +182,6 @@ public class addpage extends AppCompatActivity {
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }

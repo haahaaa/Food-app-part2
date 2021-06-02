@@ -69,8 +69,16 @@
                 <TextView
                     android:id="@+id/row_des"
                     android:layout_width="237dp"
-                    android:layout_height="41dp"
+                    android:layout_height="20dp"
                     android:text="desciption"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/row_quan"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:text="quantity"
                     android:textColor="@color/black"
                     android:textSize="10sp" />
 

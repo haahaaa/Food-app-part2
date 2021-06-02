@@ -17,8 +17,10 @@ import java.util.ArrayList;
 public class RVadapter extends RecyclerView.Adapter<RVadapter.ViewHolder>{
     ArrayList<Model> modelslist;
     private OnItemClickListener onItemClickListener;
+
     public interface OnItemClickListener{
         void onShareClick(int position);
+        void onItemClick(int position);
     }
     public void setOnItemClickListener(OnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;
@@ -44,6 +46,7 @@ public class RVadapter extends RecyclerView.Adapter<RVadapter.ViewHolder>{
         holder.image.setImageBitmap(model.getImage());
         holder.location.setText("Location: " + model.getLocation());
         holder.date.setText("Pick up date: "+ model.getDate());
+        holder.quantity.setText("Quantity: " + model.getQuantity());
 
     }
 
@@ -54,7 +57,7 @@ public class RVadapter extends RecyclerView.Adapter<RVadapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView imageTitle,imageDes,date,location;
+        TextView imageTitle,imageDes,date,location,quantity;
         ImageView image,share;
 
         public ViewHolder(@NonNull View itemView) {
@@ -64,7 +67,20 @@ public class RVadapter extends RecyclerView.Adapter<RVadapter.ViewHolder>{
             image = itemView.findViewById(R.id.row_image);
             date = itemView.findViewById(R.id.row_date);
             location = itemView.findViewById(R.id.row_loca);
+            quantity = itemView.findViewById(R.id.row_quan);
             share = itemView.findViewById(R.id.share);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(onItemClickListener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            onItemClickListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
 
             share.setOnClickListener(new View.OnClickListener() {
                 @Override

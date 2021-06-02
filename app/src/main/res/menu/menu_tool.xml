@@ -15,4 +15,9 @@
         android:title="My list"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/cart"
+        android:icon="@drawable/menu_ic"
+        android:title="My Cart"
+        app:showAsAction="never"/>
+
 </menu>

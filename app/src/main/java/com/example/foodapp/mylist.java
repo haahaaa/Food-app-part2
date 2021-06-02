@@ -59,6 +59,11 @@ public class mylist extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+        else if(id == R.id.cart)
+        {
+            Intent i = new Intent(mylist.this, cart.class);
+            startActivity(i);
+        }
         return super.onOptionsItemSelected(item);
     }
 
